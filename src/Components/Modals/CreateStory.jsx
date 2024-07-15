@@ -1,9 +1,33 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 
-const CreateStory = ({ open, toggleOpen }) => {
+const CreateStory = ({ open, toggleOpen, GetStories }) => {
+  const fields = {
+    title: "",
+    description: "",
+    tags: ["#dada", "#kaka"],
+  };
+
+  const [params, setParams] = useState(fields);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setParams({ ...params, [name]: value });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    toggleOpen();
+    axios
+      .post("http://localhost:3333/stories", params)
+      .then((res) => {
+        setStories(res.data.stories);
+      })
+      .catch((err) => {
+        console.log("err:", err);
+      })
+      .finally(() => {
+        toggleOpen();
+        GetStories();
+      });
   };
   return (
     <div
@@ -23,12 +47,21 @@ const CreateStory = ({ open, toggleOpen }) => {
             </button>
           </div>
 
+          <input
+            type="text"
+            name="title"
+            placeholder="Enter Title"
+            value={params?.title}
+            onChange={handleChange}
+          />
+
           <textarea
             className="w-full h-[70%] font-normal "
             placeholder="Write your interesting story and attract people towards you..."
-            name="story"
-            id=""
-          ></textarea>
+            name="description"
+            value={params?.description}
+            onChange={handleChange}
+          />
 
           <div className="flex  justify-between ">
             <div className="flex  items-center  gap-2 flex-wrap">

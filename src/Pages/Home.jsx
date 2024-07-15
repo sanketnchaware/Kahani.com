@@ -3,11 +3,15 @@ import CreateStory from "../Components/Modals/CreateStory";
 import gsap from "gsap/dist/gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import axios from "axios";
 
 const Home = () => {
   gsap.registerPlugin(ScrollTrigger);
 
   const [openCreateStory, setCreateOpenStory] = useState();
+
+  const [stories, setStories] = useState([]);
+  console.log("stories:", stories);
 
   const toggleStoryModal = () => {
     setCreateOpenStory(!openCreateStory);
@@ -41,6 +45,20 @@ const Home = () => {
     return () => ctx.revert();
   }, []);
 
+  function GetStories() {
+    axios
+      .get("http://localhost:3333/stories")
+      .then((res) => {
+        setStories(res.data.stories);
+      })
+      .catch((err) => {
+        console.log("err:", err);
+      });
+  }
+
+  useEffect(() => {
+    GetStories();
+  }, []);
   return (
     <>
       <div
@@ -68,14 +86,13 @@ const Home = () => {
             </div>
           </div>
           <div className="space-y-6">
-            {[...Array(20)].map((item) => {
+            {stories?.map((item, index) => {
               return (
                 <div className="text-black  ">
-                  {" "}
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque
-                  odit eligendi error commodi cum excepturi obcaecati at ab
-                  necessitatibus totam deserunt ex repellendus, quod minima,
-                  asperiores ut non nisi. Vero.
+                  <p>
+                    {index + 1}. {item?.title}
+                  </p>
+                  <p>{item?.description}</p>
                 </div>
               );
             })}
@@ -86,7 +103,11 @@ const Home = () => {
         </div>
       </div>
 
-      <CreateStory open={openCreateStory} toggleOpen={toggleStoryModal} />
+      <CreateStory
+        open={openCreateStory}
+        GetStories={GetStories}
+        toggleOpen={toggleStoryModal}
+      />
     </>
   );
 };
