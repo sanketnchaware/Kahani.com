@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    /* @apply debug */
+}
+
+.debug {
+    @apply shadow-inner ;
+}
+
+button {
+
+    @apply outline-none bg-orange-500 active:bg-orange-400 py-1 px-3 font-medium active:scale-[95%] transition-all ease-in-out rounded-xl text-white;
+}
+
+
+input,textarea {
+
+    @apply outline-none rounded-lg border py-1 px-3 font-medium transition-all text-black border-orange-300;
+}
