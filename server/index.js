@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cors());
 
 app.get("/", async (req, res) => {
-  return res.send("Hello, world!");
+  return res.json({ message: "Hello, world!" });
 });
 
 app.use("/stories", Storycontroller);
