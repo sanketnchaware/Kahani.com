@@ -2,7 +2,7 @@ const express = require("express");
 const Story = require("../modals/Story.js");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("", async (req, res) => {
   try {
     const stories = await Story.find().lean().exec();
     return res.status(201).send({ stories: stories, message: "Stories List" });
@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("", async (req, res) => {
   try {
     const createdStory = await Story.create(req.body);
     return res.send({

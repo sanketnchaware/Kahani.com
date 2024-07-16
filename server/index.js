@@ -4,6 +4,8 @@ const cors = require("cors");
 const connect = require("./configs/db");
 const port = process.env.PORT || 3333;
 require("dotenv").config();
+app.use(express.json());
+app.use(cors());
 
 const app = express();
 
@@ -16,9 +18,6 @@ app.listen(port, async () => {
     console.log("db connection failed", err.message);
   }
 });
-
-app.use(express.json());
-app.use(cors());
 
 app.get("/", async (req, res) => {
   return res.json({ message: "Hello, world!" });
