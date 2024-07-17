@@ -3,10 +3,12 @@ mongoose.set("strictQuery", false);
 
 const storySchema = new mongoose.Schema(
   {
+    id: { type: Number },
     title: { type: String, required: true },
     description: { type: String, required: true },
-    tags: [{ type: String, requiredL: true }],
+    tags: [{ type: String, required: true }],
   },
+
   { versionKey: false },
   { timeStamps: true }
 );

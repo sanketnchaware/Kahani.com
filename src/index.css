@@ -6,8 +6,12 @@
     /* @apply debug */
 }
 
+body {
+    @apply bg-floaralWhite text-nero
+}
+
 .debug {
-    @apply shadow-inner ;
+    @apply shadow-inner;
 }
 
 button {
@@ -16,7 +20,8 @@ button {
 }
 
 
-input,textarea {
+input,
+textarea {
 
     @apply outline-none rounded-lg border py-1 px-3 font-medium transition-all text-black border-orange-300;
 }

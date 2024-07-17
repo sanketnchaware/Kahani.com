@@ -55,6 +55,17 @@ const Home = () => {
         console.log("err:", err);
       });
   }
+  function deleteStory(id) {
+    axios
+      .delete(`http://localhost:3333/stories/${id}`)
+      .then((res) => {
+        alert("story deleted");
+        GetStories();
+      })
+      .catch((err) => {
+        console.log("err:", err);
+      });
+  }
 
   useEffect(() => {
     GetStories();
@@ -88,11 +99,30 @@ const Home = () => {
           <div className="space-y-6">
             {stories?.map((item, index) => {
               return (
-                <div className="text-black  ">
-                  <p>
-                    {index + 1}. {item?.title}
-                  </p>
-                  <p>{item?.description}</p>
+                <div className="space-y-4 text-black rounded-xl  p-4  ">
+                  <button
+                    onClick={() => {
+                      deleteStory(item?.id);
+                    }}
+                    className=""
+                  >
+                    Delete
+                  </button>
+                  <div className="space-y-4">
+                    <p>
+                      {index + 1}. {item?.title}
+                    </p>
+                    <p>{item?.description}</p>
+                    <div className="flex items-center  gap-2 flex-wrap">
+                      {item?.tags?.map((tag, index) => {
+                        return (
+                          <div className=" bg-orange-200 rounded-xl text-black  px-2 py-1">
+                            #{tag}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               );
             })}

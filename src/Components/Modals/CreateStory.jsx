@@ -2,16 +2,24 @@ import axios from "axios";
 import React, { useState } from "react";
 
 const CreateStory = ({ open, toggleOpen, GetStories }) => {
+  const [tag, setTag] = useState("");
+
   const fields = {
     title: "",
     description: "",
-    tags: ["#dada", "#kaka"],
+    tags: [],
   };
 
   const [params, setParams] = useState(fields);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setParams({ ...params, [name]: value });
+  };
+
+  const HandleTags = (e) => {
+    setParams({ ...params, tags: [...params.tags, ...[tag]] });
+    setTag("");
   };
 
   const handleSubmit = (e) => {
@@ -66,12 +74,22 @@ const CreateStory = ({ open, toggleOpen, GetStories }) => {
           <div className="flex  justify-between ">
             <div className="flex  items-center  gap-2 flex-wrap">
               <div className=" space-y-4">
-                <p>Add tags</p>
+                <input
+                  type="text"
+                  name="tag"
+                  placeholder="Enter tag name"
+                  value={tag}
+                  onChange={(e) => {
+                    setTag(e.target.value);
+                  }}
+                />
+
+                <button onClick={HandleTags}>Add tag</button>
                 <div className="flex items-center  gap-2 flex-wrap">
-                  {[...Array(14)].map((item, index) => {
+                  {params?.tags?.map((item, index) => {
                     return (
                       <div className="cursor-pointer bg-orange-300 hover:bg-orange-200 rounded-xl text-white  px-2 py-1">
-                        #tag{index + 1}
+                        #{item}
                       </div>
                     );
                   })}

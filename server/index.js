@@ -4,10 +4,9 @@ const cors = require("cors");
 const connect = require("./configs/db");
 const port = process.env.PORT || 3333;
 require("dotenv").config();
+const app = express();
 app.use(express.json());
 app.use(cors());
-
-const app = express();
 
 app.listen(port, async () => {
   console.log("listening on port " + port);
