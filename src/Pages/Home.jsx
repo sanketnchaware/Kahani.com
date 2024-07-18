@@ -11,6 +11,7 @@ const Home = () => {
   const [openCreateStory, setCreateOpenStory] = useState();
 
   const [stories, setStories] = useState([]);
+  const [storyId, SetStoryId] = useState([]);
   console.log("stories:", stories);
 
   const toggleStoryModal = () => {
@@ -19,31 +20,31 @@ const Home = () => {
 
   const main = useRef(null);
 
-  useEffect(() => {
-    let ctx = gsap.context(() => {
-      gsap.to(".leftcontainer", {
-        scrollTrigger: {
-          trigger: ".leftcontainer",
-          start: "top top",
-          // end: "bottom bottom",
-          // endTrigger: ".HomemainContainer",
-          pin: true,
-          pinSpacing: false,
-        },
-      });
-      gsap.to(".rightcontainer", {
-        scrollTrigger: {
-          trigger: ".rightcontainer",
-          start: "top top",
-          // end: "bottom bottom",
-          // endTrigger: ".HomemainContainer",
-          pin: true,
-          pinSpacing: false,
-        },
-      });
-    });
-    return () => ctx.revert();
-  }, []);
+  // useEffect(() => {
+  //   let ctx = gsap.context(() => {
+  //     gsap.to(".leftcontainer", {
+  //       scrollTrigger: {
+  //         trigger: ".leftcontainer",
+  //         start: "top top",
+  //         // end: "bottom bottom",
+  //         // endTrigger: ".HomemainContainer",
+  //         pin: true,
+  //         pinSpacing: false,
+  //       },
+  //     });
+  //     gsap.to(".rightcontainer", {
+  //       scrollTrigger: {
+  //         trigger: ".rightcontainer",
+  //         start: "top top",
+  //         // end: "bottom bottom",
+  //         // endTrigger: ".HomemainContainer",
+  //         pin: true,
+  //         pinSpacing: false,
+  //       },
+  //     });
+  //   });
+  //   return () => ctx.revert();
+  // }, []);
 
   function GetStories() {
     axios
@@ -85,7 +86,7 @@ const Home = () => {
               <input
                 placeholder="Search your favourite story.."
                 type="text"
-                className="w-full"
+                className="bg-transparent outline-none border-b w-full"
               />
               <button>Search </button>
             </div>
@@ -96,37 +97,54 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="space-y-6">
-            {stories?.map((item, index) => {
-              return (
-                <div className="space-y-4 text-black rounded-xl  p-4  ">
-                  <button
-                    onClick={() => {
-                      deleteStory(item?.id);
-                    }}
-                    className=""
-                  >
-                    Delete
-                  </button>
-                  <div className="space-y-4">
-                    <p>
-                      {index + 1}. {item?.title}
-                    </p>
-                    <p>{item?.description}</p>
-                    <div className="flex items-center  gap-2 flex-wrap">
-                      {item?.tags?.map((tag, index) => {
-                        return (
-                          <div className=" bg-orange-200 rounded-xl text-black  px-2 py-1">
-                            #{tag}
-                          </div>
-                        );
-                      })}
+          {stories.length > 0 ? (
+            <div className="space-y-6">
+              {stories?.map((item, index) => {
+                return (
+                  <div className="space-y-4  bg-nero text-black rounded-xl  p-4  ">
+                    <div className="space-x-4">
+                      <button
+                        onClick={() => {
+                          deleteStory(item?.id);
+                        }}
+                        className=""
+                      >
+                        Delete
+                      </button>
+                      <button
+                        onClick={() => {
+                          SetStoryId(item?.id);
+                          toggleStoryModal();
+                        }}
+                        className=""
+                      >
+                        Edit
+                      </button>
+                    </div>
+                    <div className="space-y-4">
+                      <p className="text-white">
+                        {index + 1}. {item?.title}
+                      </p>
+                      <p className="text-white">{item?.description}</p>
+                      <div className="flex items-center  gap-2 flex-wrap">
+                        {item?.tags?.map((tag, index) => {
+                          return (
+                            <div className=" bg-orange-200 rounded-xl text-black  px-2 py-1">
+                              #{tag}
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className=" flex items-center justify-center w-full h-[40vh] ">
+              No Stories Found !
+            </div>
+          )}
         </div>
         <div className="rightcontainer  p-6 space-y-6 col-span-3 h-full debug">
           My profile
@@ -135,6 +153,7 @@ const Home = () => {
 
       <CreateStory
         open={openCreateStory}
+        storyId={storyId}
         GetStories={GetStories}
         toggleOpen={toggleStoryModal}
       />

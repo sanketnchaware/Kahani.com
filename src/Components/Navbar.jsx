@@ -5,32 +5,32 @@ const Navbar = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.scrollY;
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const currentScrollPos = window.scrollY;
 
-      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
+  //     setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
 
-      if (currentScrollPos > prevScrollPos) {
-        setScrollDirection("down");
-      } else {
-        setScrollDirection("up");
-      }
+  //     if (currentScrollPos > prevScrollPos) {
+  //       setScrollDirection("down");
+  //     } else {
+  //       setScrollDirection("up");
+  //     }
 
-      setPrevScrollPos(currentScrollPos);
-    };
+  //     setPrevScrollPos(currentScrollPos);
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [prevScrollPos]);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [prevScrollPos]);
   return (
     <div
       className={`transition duration-300 ${
         visible ? "" : "-translate-y-full"
-      } z-50 fixed top-0 left-0 w-full bg-nero bg-opacity-20 backdrop-blur-xl text-center debug py-4`}
+      } z-50 fixed top-0 left-0 w-full text-white bg-nero backdrop-blur-xl text-center debug py-4`}
     >
       Kahani.com
     </div>

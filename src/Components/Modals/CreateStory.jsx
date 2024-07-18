@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const CreateStory = ({ open, toggleOpen, GetStories }) => {
+const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
   const [tag, setTag] = useState("");
 
   const fields = {
@@ -24,19 +24,52 @@ const CreateStory = ({ open, toggleOpen, GetStories }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    storyId
+      ? axios
+          .patch(`http://localhost:3333/stories/${storyId}`, params)
+          .then((res) => {
+            alert("story updated");
+            GetStories();
+            toggleOpen();
+          })
+          .catch((err) => {
+            console.log("err:", err);
+          })
+      : axios
+          .post("http://localhost:3333/stories", params)
+          .then((res) => {
+            // GetStories(res.data.stories);
+          })
+          .catch((err) => {
+            console.log("err:", err);
+          })
+          .finally(() => {
+            setParams(fields);
+            toggleOpen();
+            GetStories();
+          });
+  };
+
+  const getStoryByID = () => {
     axios
-      .post("http://localhost:3333/stories", params)
+      .get(`http://localhost:3333/stories/${storyId}`)
       .then((res) => {
-        setStories(res.data.stories);
+        console.log("res:", res?.data.story);
+        setParams({
+          ...params,
+          title: res?.data?.story?.title,
+          description: res?.data?.story?.description,
+          tags: res?.data?.story?.tags,
+        });
       })
       .catch((err) => {
         console.log("err:", err);
-      })
-      .finally(() => {
-        toggleOpen();
-        GetStories();
       });
   };
+
+  useEffect(() => {
+    storyId && open && getStoryByID();
+  }, [storyId]);
   return (
     <div
       className={` flex items-center justify-center  m-auto  w-full h-screen ${
@@ -46,7 +79,7 @@ const CreateStory = ({ open, toggleOpen, GetStories }) => {
       }`}
     >
       {open ? (
-        <div className=" bg-white rounded-xl shadow-2xl  p-6 space-y-6 overflow-auto w-11/12 h-[90vh] ">
+        <div className=" bg-nero/80 rounded-xl shadow-2xl  p-6 space-y-6 overflow-auto w-11/12 h-[90vh] ">
           <div className="flex items-center justify-between ">
             <p>Write your story..</p>
 
@@ -59,12 +92,13 @@ const CreateStory = ({ open, toggleOpen, GetStories }) => {
             type="text"
             name="title"
             placeholder="Enter Title"
+            className="bg-transparent border w-full py-4 border-slate-600"
             value={params?.title}
             onChange={handleChange}
           />
 
           <textarea
-            className="w-full h-[70%] font-normal "
+            className="w-full h-[70%] bg-transparent border border-slate-600 font-normal "
             placeholder="Write your interesting story and attract people towards you..."
             name="description"
             value={params?.description}
@@ -77,6 +111,7 @@ const CreateStory = ({ open, toggleOpen, GetStories }) => {
                 <input
                   type="text"
                   name="tag"
+                  className="bg-transparent border w-full py-4 border-slate-600"
                   placeholder="Enter tag name"
                   value={tag}
                   onChange={(e) => {

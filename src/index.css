@@ -7,11 +7,11 @@
 }
 
 body {
-    @apply bg-floaralWhite text-nero
+    @apply bg-nero text-floaralWhite
 }
 
 .debug {
-    @apply shadow-inner;
+    @apply border border-red-800;
 }
 
 button {
@@ -23,5 +23,5 @@ button {
 input,
 textarea {
 
-    @apply outline-none rounded-lg border py-1 px-3 font-medium transition-all text-black border-orange-300;
+    @apply outline-none text-floaralWhite py-1 px-3 font-medium transition-all ;
 }
