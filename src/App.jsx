@@ -5,6 +5,10 @@ import Home from "./Pages/Home";
 import Profile from "./Pages/Profile";
 
 const App = () => {
+  const GoogleLogin = () => {
+    window.open("http://localhost:3333/auth/google", "_self");
+  };
+  return <button onClick={GoogleLogin}>Login</button>;
   return (
     <BrowserRouter>
       <Routes>

@@ -75,40 +75,38 @@ const Home = () => {
     <>
       <div
         ref={main}
-        className="HomemainContainer  mt-10 col-span-12 min-h-screen grid grid-cols-12"
+        className="HomemainContainer mt-12 col-span-12 min-h-screen grid grid-cols-12"
       >
-        <div className="p-6 leftcontainer space-y-6 col-span-3 h-full debug">
+        <div className="p-6 sticky top-12 h-screen leftcontainer shadow-sameshadow space-y-6 col-span-3">
           Filter
         </div>
-        <div className="middleContainer  space-y-6 p-6 col-span-6 h-full debug">
-          <div className="w-full space-y-6 pt-6 ">
-            <div className=" flex items-center gap-4">
+        <div className="middleContainer space-y-6 p-6 col-span-6 h-full overflow-y-auto">
+          <div className="w-full space-y-6 pt-6">
+            <div className="flex items-center gap-4">
               <input
                 placeholder="Search your favourite story.."
                 type="text"
-                className="bg-transparent outline-none border-b w-full"
+                className="bg-transparent text-black outline-none border px-4 py-2 rounded-lg w-full"
               />
-              <button>Search </button>
+              <button>Search</button>
             </div>
 
             <div className="flex justify-center">
-              <button onClick={toggleStoryModal} className="">
-                Do you have your story ?{" "}
+              <button onClick={toggleStoryModal}>
+                Do you have your story?
               </button>
             </div>
           </div>
-          {stories.length > 0 ? (
-            <div className="space-y-6">
-              {stories?.map((item, index) => {
-                return (
-                  <div className="space-y-4  bg-nero text-black rounded-xl  p-4  ">
+          {React.Children.toArray(
+            stories.length > 0 ? (
+              <div className=" space-y-6">
+                {stories?.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className="space-y-4 shadow-sameshadow text-black rounded-xl p-4"
+                  >
                     <div className="space-x-4">
-                      <button
-                        onClick={() => {
-                          deleteStory(item?.id);
-                        }}
-                        className=""
-                      >
+                      <button onClick={() => deleteStory(item?.id)}>
                         Delete
                       </button>
                       <button
@@ -116,37 +114,37 @@ const Home = () => {
                           SetStoryId(item?.id);
                           toggleStoryModal();
                         }}
-                        className=""
                       >
                         Edit
                       </button>
                     </div>
                     <div className="space-y-4">
-                      <p className="text-white">
+                      <p>
                         {index + 1}. {item?.title}
                       </p>
-                      <p className="text-white">{item?.description}</p>
-                      <div className="flex items-center  gap-2 flex-wrap">
-                        {item?.tags?.map((tag, index) => {
-                          return (
-                            <div className=" bg-orange-200 rounded-xl text-black  px-2 py-1">
-                              #{tag}
-                            </div>
-                          );
-                        })}
+                      <p>{item?.description}</p>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        {item?.tags?.map((tag, tagIndex) => (
+                          <div
+                            key={tagIndex}
+                            className="bg-gray-200 rounded-xl text-black px-3 py-1"
+                          >
+                            #{tag}
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className=" flex items-center justify-center w-full h-[40vh] ">
-              No Stories Found !
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center w-full h-[40vh]">
+                No Stories Found!
+              </div>
+            )
           )}
         </div>
-        <div className="rightcontainer  p-6 space-y-6 col-span-3 h-full debug">
+        <div className="shadow-sameshadow rightcontainer p-6 space-y-6 col-span-3 sticky top-12 h-screen">
           My profile
         </div>
       </div>

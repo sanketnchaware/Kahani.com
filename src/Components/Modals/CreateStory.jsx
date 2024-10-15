@@ -72,16 +72,14 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
   }, [storyId]);
   return (
     <div
-      className={` flex items-center justify-center  m-auto  w-full h-screen ${
-        open
-          ? "fixed left-0 right-0 top-0 bottom-0 z-[999] bg-black-50 backdrop-blur-xl"
-          : ""
+      className={`fixed left-0 right-0 top-0 bottom-0  flex items-center justify-center  m-auto  w-full h-screen ${
+        open ? " z-[999] bg-black-50 backdrop-blur-xl" : "-z-[999]"
       }`}
     >
       {open ? (
-        <div className=" bg-nero/80 rounded-xl shadow-2xl  p-6 space-y-6 overflow-auto w-11/12 h-[90vh] ">
+        <div className=" bg-white  rounded-xl shadow-2xl  p-6 space-y-6 overflow-auto w-11/12 h-[90vh] ">
           <div className="flex items-center justify-between ">
-            <p>Write your story..</p>
+            <h2 className="text-2xl">Write Your Story</h2>
 
             <button onClick={toggleOpen} className="">
               X
@@ -92,13 +90,13 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
             type="text"
             name="title"
             placeholder="Enter Title"
-            className="bg-transparent border w-full py-4 border-slate-600"
+            className="bg-transparent border text-black w-full py-4 border-slate-600"
             value={params?.title}
             onChange={handleChange}
           />
 
           <textarea
-            className="w-full h-[70%] bg-transparent border border-slate-600 font-normal "
+            className="w-full h-[50%] bg-transparent border border-slate-600 font-normal text-black "
             placeholder="Write your interesting story and attract people towards you..."
             name="description"
             value={params?.description}

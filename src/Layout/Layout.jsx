@@ -7,7 +7,7 @@ import Footer from "../Components/Footer";
 
 const Layout = () => {
   return (
-    <div className=" w-11/12 m-auto ">
+    <div className=" w-full ">
       <Navbar />
 
       <Outlet />
