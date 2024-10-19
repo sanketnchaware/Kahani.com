@@ -9,8 +9,10 @@ const storySchema = new mongoose.Schema(
     tags: [{ type: String }],
   },
 
-  { versionKey: false },
-  { timeStamps: true }
+  {
+    versionKey: false,
+    timestamps: true, // Combine the options into a single object
+  }
 );
 
 const Story = mongoose.model("story", storySchema);

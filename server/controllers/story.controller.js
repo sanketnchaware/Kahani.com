@@ -19,7 +19,7 @@ router.get("", async (req, res) => {
 });
 
 // create story
-router.post("", async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
     const { title, tags, description } = req.body;
 
@@ -39,7 +39,7 @@ router.post("", async (req, res) => {
 
     const savedStory = await newStory.save();
 
-    return res.send({
+    return res.status(200).send({
       data: savedStory,
       message: "Story created successfully",
     });
@@ -62,7 +62,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   try {
     const item = await Story.findOneAndDelete({ id: req.params.id })
       .lean()
@@ -78,7 +78,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.patch("/:id", async (req, res) => {
+router.patch("/update/:id", async (req, res) => {
   try {
     const { title, description, tags } = req.body;
 

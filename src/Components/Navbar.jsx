@@ -1,5 +1,6 @@
 import { ClickAwayListener } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [scrollDirection, setScrollDirection] = useState(null); // 'up' or 'down'
@@ -86,7 +87,9 @@ const Navbar = () => {
           </div>
         </ClickAwayListener>
       ) : (
-        <button onClick={GoogleLogin}>Login</button>
+        <Link to="/login">
+          <button>Login</button>
+        </Link>
       )}
     </div>
   );
