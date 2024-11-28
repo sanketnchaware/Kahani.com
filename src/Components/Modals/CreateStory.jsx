@@ -26,7 +26,7 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
     e.preventDefault();
     storyId
       ? axios
-          .patch(`http://localhost:3333/stories/${storyId}`, params)
+          .patch(`https://kahani-com.onrender.com/stories/${storyId}`, params)
           .then((res) => {
             alert("story updated");
             GetStories();
@@ -36,7 +36,7 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
             console.log("err:", err);
           })
       : axios
-          .post("http://localhost:3333/stories", params)
+          .post("https://kahani-com.onrender.com/stories", params)
           .then((res) => {
             // GetStories(res.data.stories);
           })
@@ -52,7 +52,7 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
 
   const getStoryByID = () => {
     axios
-      .get(`http://localhost:3333/stories/${storyId}`)
+      .get(`https://kahani-com.onrender.com/stories/${storyId}`)
       .then((res) => {
         console.log("res:", res?.data.story);
         setParams({

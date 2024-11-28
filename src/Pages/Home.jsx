@@ -48,7 +48,7 @@ const Home = () => {
 
   function GetStories() {
     axios
-      .get("http://localhost:3333/stories")
+      .get("https://kahani-com.onrender.com/stories")
       .then((res) => {
         setStories(res.data.stories);
       })
@@ -58,7 +58,7 @@ const Home = () => {
   }
   function deleteStory(id) {
     axios
-      .delete(`http://localhost:3333/stories/${id}`)
+      .delete(`https://kahani-com.onrender.com/stories/${id}`)
       .then((res) => {
         alert("story deleted");
         GetStories();

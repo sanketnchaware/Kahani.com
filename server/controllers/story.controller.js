@@ -78,7 +78,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.patch("/update/:id", async (req, res) => {
+router.patch("/:id", async (req, res) => {
   try {
     const { title, description, tags } = req.body;
 
