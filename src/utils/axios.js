@@ -1,7 +1,8 @@
 import axios from "axios";
 
-const baseURL = process.env.REACT_APP_BACKEND_URL || "http://localhost:3333";
+const baseURL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3333";
 
+console.log(baseURL, "baseURL");
 
 const axiosInstance = axios.create({
   baseURL: baseURL,
