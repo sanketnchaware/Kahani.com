@@ -71,6 +71,7 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
   useEffect(() => {
     storyId && open && getStoryByID();
   }, [storyId]);
+
   return (
     <div
       className={`fixed left-0 right-0 top-0 bottom-0  flex items-center justify-center  m-auto  w-full h-screen ${
