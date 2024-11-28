@@ -26,11 +26,9 @@ router.post("/", async (req, res) => {
 
     // Validate input
     if (!title || !description || !tags) {
-      return res
-        .status(400)
-        .send({
-          message: "All fields (title, description, tags) are required",
-        });
+      return res.status(400).send({
+        message: "All fields (title, description, tags) are required",
+      });
     }
 
     // Generate a custom ID for the new story

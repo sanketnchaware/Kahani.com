@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import axiosInstance from "../../utils/axios";
 
 const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
   const [tag, setTag] = useState("");
@@ -25,8 +26,8 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     storyId
-      ? axios
-          .patch(`http://localhost:3333/stories/${storyId}`, params)
+      ? axiosInstance
+          .patch(`/stories/${storyId}`, params)
           .then((res) => {
             alert("story updated");
             GetStories();
@@ -35,8 +36,8 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
           .catch((err) => {
             console.log("err:", err);
           })
-      : axios
-          .post("http://localhost:3333/stories", params)
+      : axiosInstance
+          .post("/stories", params)
           .then((res) => {
             // GetStories(res.data.stories);
           })
@@ -51,8 +52,8 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
   };
 
   const getStoryByID = () => {
-    axios
-      .get(`http://localhost:3333/stories/${storyId}`)
+    axiosInstance
+      .get(`/stories/${storyId}`)
       .then((res) => {
         console.log("res:", res?.data.story);
         setParams({

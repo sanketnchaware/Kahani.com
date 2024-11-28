@@ -4,6 +4,7 @@ import gsap from "gsap/dist/gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import axios from "axios";
+import axiosInstance from "../utils/axios";
 
 const Home = () => {
   gsap.registerPlugin(ScrollTrigger);
@@ -47,8 +48,8 @@ const Home = () => {
   // }, []);
 
   function GetStories() {
-    axios
-      .get("http://localhost:3333/stories")
+    axiosInstance
+      .get("/stories")
       .then((res) => {
         setStories(res.data.stories);
       })
@@ -57,8 +58,8 @@ const Home = () => {
       });
   }
   function deleteStory(id) {
-    axios
-      .delete(`http://localhost:3333/stories/${id}`)
+    axiosInstance
+      .delete(`/stories/${id}`)
       .then((res) => {
         alert("story deleted");
         GetStories();
