@@ -13,15 +13,16 @@ const port = process.env.PORT || 3333;
 // Middleware setup
 app.use(express.json());
 
-// Define the allowed origin(s) (use "*" for any origin or specify the frontend URL)
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || "http://localhost:3000", // Allow only the frontend URL or a list of URLs
+  origin: process.env.FRONTEND_URL || "http://localhost:3000", // Allow only the frontend URL or list of URLs
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow specific HTTP methods
   allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
   credentials: true, // Allow credentials (cookies, authorization headers)
+  preflightContinue: false, // Pass the CORS preflight response to the next handler
+  optionsSuccessStatus: 200, // Some older browsers choke on 204
 };
 
-app.use(cors(corsOptions)); // Use the CORS middleware with the configuration
+app.use(cors(corsOptions)); // Use CORS middleware with the configuration
 
 // Session configuration
 app.use(
