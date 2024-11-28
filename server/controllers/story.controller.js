@@ -9,7 +9,7 @@ async function generateCustomId() {
 }
 
 // get story list
-router.get("", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const stories = await Story.find().lean().exec();
     return res.status(201).send({ stories: stories, message: "Stories List" });
@@ -19,32 +19,45 @@ router.get("", async (req, res) => {
 });
 
 // create story
-router.post("/create", async (req, res) => {
+// POST route to create a new story
+router.post("/", async (req, res) => {
   try {
     const { title, tags, description } = req.body;
 
+    // Validate input
+    if (!title || !description || !tags) {
+      return res
+        .status(400)
+        .send({
+          message: "All fields (title, description, tags) are required",
+        });
+    }
+
+    // Generate a custom ID for the new story
     const customid = await generateCustomId();
 
-    // newStory create intance of  story Model
-
+    // Create a new story document
     const newStory = new Story({
       title: title,
       description: description,
       tags: tags,
       id: customid,
     });
-    // newStory.save() is used to do manipulation and the document
-    // when save is called Mongoose sends an insert operation to MongoDB, which creates a new document.
-    // create is use to directly create new document into the story
 
+    // Save the story to the database
     const savedStory = await newStory.save();
 
+    // Respond with the saved story
     return res.status(200).send({
       data: savedStory,
       message: "Story created successfully",
     });
   } catch (err) {
-    return res.status(500).send({ message: err.message });
+    // Handle different error types if necessary
+    console.error(err);
+    return res
+      .status(500)
+      .send({ message: "An error occurred while creating the story" });
   }
 });
 

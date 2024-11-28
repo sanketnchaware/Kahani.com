@@ -11,8 +11,8 @@ const Home = () => {
   const [openCreateStory, setCreateOpenStory] = useState();
 
   const [stories, setStories] = useState([]);
-  const [storyId, SetStoryId] = useState([]);
-  console.log("stories:", stories);
+  const [storyId, SetStoryId] = useState();
+  console.log("stories:", stories, storyId);
 
   const toggleStoryModal = () => {
     setCreateOpenStory(!openCreateStory);
@@ -48,7 +48,7 @@ const Home = () => {
 
   function GetStories() {
     axios
-      .get("https://kahani-com.onrender.com/stories")
+      .get("http://localhost:3333/stories")
       .then((res) => {
         setStories(res.data.stories);
       })
@@ -58,7 +58,7 @@ const Home = () => {
   }
   function deleteStory(id) {
     axios
-      .delete(`https://kahani-com.onrender.com/stories/${id}`)
+      .delete(`http://localhost:3333/stories/${id}`)
       .then((res) => {
         alert("story deleted");
         GetStories();
