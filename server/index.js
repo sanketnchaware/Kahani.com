@@ -8,6 +8,7 @@ const app = express();
 const port = process.env.PORT || 3333;
 const session = require("express-session");
 require("dotenv").config();
+const router = express.Router();
 
 app.use(express.json());
 app.use(cors());
@@ -38,17 +39,9 @@ app.get(
     session: false,
   }),
   function (req, res) {
-    // Successful authentication, redirect home.
-    // res.redirect("/");
-    // return res.status(200).send({
-    //   message: "Authentication successful",
-    //   user: req.user,
-    //   token: "dsfdaf510w21dsf6as59q1ad",
-    // });
-    return res.status(200).send({
-      message: "Authentication successful",
-      token: "dsfdaf510w21dsf6as59q1ad",
-    });
+    const token = "dsfdaf510w21dsf6as59q1ad";
+    res.redirect(`http://localhost:3000`);
+    res.status.send({ token: token, user: req.user });
   }
 );
 
@@ -61,6 +54,11 @@ app.listen(port, async () => {
   } catch (err) {
     console.log("DB connection failed", err.message);
   }
+});
+
+// Catch-all for any undefined routes
+router.all("*", (req, res) => {
+  return res.status(404).send({ message: "Route not found" });
 });
 
 // Use the story controller

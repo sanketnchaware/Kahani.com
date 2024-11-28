@@ -12,6 +12,7 @@ passport.use(
       callbackURL: "http://localhost:3333/auth/google/callback",
     },
     async function (accessToken, refreshToken, profile, cb) {
+      
       const { given_name, family_name, email } = profile?._json;
 
       let user = await User.findOne({ email: profile._json.email })

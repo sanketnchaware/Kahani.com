@@ -6,10 +6,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    window.open("http://localhost:3333/auth/google", "_self");
+    window.open("http://localhost:3333/auth/google");
   };
 
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle login logic here
