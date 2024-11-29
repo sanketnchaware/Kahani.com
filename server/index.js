@@ -13,7 +13,21 @@ const port = process.env.PORT || 3333;
 // Middleware setup
 app.use(express.json());
 
-app.use(cors()); // Use CORS middleware with the configuration
+app.use(function (req, res, next) {
+  // res.header("Access-Control-Allow-Origin", "*");
+  const allowedOrigins = "*";
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.header("Access-Control-Allow-credentials", true);
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE");
+  next();
+});
 
 // Session configuration
 app.use(
