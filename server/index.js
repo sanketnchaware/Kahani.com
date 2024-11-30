@@ -13,28 +13,12 @@ const port = process.env.PORT || 3333;
 // Middleware setup
 app.use(express.json());
 
-app.use(function (req, res, next) {
-  // res.header("Access-Control-Allow-Origin", "*");
-  const allowedOrigins = "*";
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin);
-  }
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.header("Access-Control-Allow-credentials", true);
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, UPDATE");
-  next();
-});
-
-// Session configuration
 app.use(
-  session({
-    resave: false,
-    saveUninitialized: true,
-    secret: process.env.SESSION_SECRET,
+  cors({
+    origin: "*", // Allow all origins
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow headers you expect
+    credentials: true, // If you need to support cookies, authentication, or sessions
   })
 );
 
