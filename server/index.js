@@ -13,12 +13,28 @@ const port = process.env.PORT || 3333;
 // Middleware setup
 app.use(express.json());
 
+// Enable CORS with credentials support
 app.use(
   cors({
-    origin: "https://mykahani.netlify.app/", // Allow all origins
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Allow headers you expect
-    credentials: true, // If you need to support cookies, authentication, or sessions
+    origin: "https://mykahani.netlify.app", // Replace with your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, // Allow sending cookies with cross-origin requests
+  })
+);
+
+// Session middleware for cookies (Optional for user sessions)
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "your-secret-key", // Use a session secret for security
+    resave: false, // Do not resave session if it is not modified
+    saveUninitialized: false, // Do not create a session until something is stored
+    cookie: {
+      httpOnly: true, // Ensure the cookie is not accessible via JavaScript
+      secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
+      sameSite: "None", // Allow cookies to be sent in cross-origin requests
+      maxAge: 1000 * 60 * 60, // Cookie expiry in 1 hour
+    },
   })
 );
 
@@ -40,11 +56,19 @@ app.get(
     session: false,
   }),
   function (req, res) {
-    // Assuming you're generating a token for the user
-    const token = "dsfdaf510w21dsf6as59q1ad";
+    // Assuming the user has logged in successfully and you have a token
+    const token = "dsfdaf510w21dsf6as59q1ad"; // This token should come from your authentication logic
 
-    // Redirect the user to your frontend (make sure this is the correct frontend URL)
-    res.redirect(`http://localhost:3000?token=${token}`); // Use a query parameter or another method to send the token
+    // Set a dynamic cookie (e.g., after a successful login)
+    res.cookie("auth_token", token, {
+      httpOnly: true, // Make sure it's not accessible via JavaScript
+      secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
+      sameSite: "None", // Allows cookies to be sent in cross-origin requests
+      maxAge: 1000 * 60 * 60, // Cookie expires in 1 hour
+    });
+
+    // Redirect the user to the frontend after authentication
+    res.redirect(`https://mykahani.netlify.app?token=${token}`);
   }
 );
 
