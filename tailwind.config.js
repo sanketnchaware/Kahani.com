@@ -22,6 +22,7 @@ export default {
     extend: {
       fontFamily: {
         Onest: ["Onest"],
+        libre: ["Libre Baskerville"],
         PlusJakartaSans: ["Plus Jakarta Sans"],
       },
       colors: {
