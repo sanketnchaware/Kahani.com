@@ -19,6 +19,19 @@ const Home = () => {
     setCreateOpenStory(!openCreateStory);
   };
 
+  const fields = {
+    title: "",
+    description: "",
+    tags: [],
+  };
+
+  const [params, setParams] = useState(fields);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setParams({ ...params, [name]: value });
+  };
+
   const main = useRef(null);
 
   // useEffect(() => {
@@ -92,10 +105,10 @@ const Home = () => {
               <button className="common_button">Search</button>
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-4">
               <p className="title4">Do you have your story?</p>
-              <button onClick={toggleStoryModal} className="underline">
-                Write it down.
+              <button onClick={toggleStoryModal} className="common_button">
+                Add 
               </button>
             </div>
           </div>
@@ -156,8 +169,12 @@ const Home = () => {
       </div>
 
       <CreateStory
+        params={params}
+        setParams={setParams}
+        handleChange={handleChange}
         open={openCreateStory}
         storyId={storyId}
+        fields={fields}
         GetStories={GetStories}
         toggleOpen={toggleStoryModal}
       />

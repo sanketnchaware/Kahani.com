@@ -1,28 +1,29 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../utils/axios";
+import cross from "../../assets/icons/cross.svg";
 
-const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
+const CreateStory = ({
+  open,
+  toggleOpen,
+  GetStories,
+  storyId,
+  fields,
+  params,
+  setParams,
+  handleChange,
+}) => {
   const [tag, setTag] = useState("");
-
-  const fields = {
-    title: "",
-    description: "",
-    tags: [],
-  };
-
-  const [params, setParams] = useState(fields);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setParams({ ...params, [name]: value });
-  };
 
   const HandleTags = (e) => {
     setParams({ ...params, tags: [...params.tags, ...[tag]] });
     setTag("");
   };
-
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSubmit(event); // Trigger form submission
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     storyId
@@ -32,10 +33,12 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
             alert("story updated");
             GetStories();
             toggleOpen();
+            setParams(fields);
           })
           .catch((err) => {
             console.log("err:", err);
           })
+          .finally(() => {})
       : axiosInstance
           .post("/stories", params)
           .then((res) => {
@@ -79,16 +82,26 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
       }`}
     >
       {open ? (
-        <div className=" bg-white  rounded-xl shadow-2xl  p-6 space-y-6 overflow-auto w-11/12 h-[90vh] ">
+        <form
+          onSubmit={handleSubmit}
+          className=" bg-white  rounded-xl shadow-2xl  p-6 space-y-6 overflow-auto w-11/12 h-[90vh] "
+        >
           <div className="flex items-center justify-between ">
             <h2 className="text-2xl">Write Your Story</h2>
 
-            <button onClick={toggleOpen} className="">
-              X
+            <button
+              onClick={() => {
+                setParams(fields);
+                toggleOpen();
+              }}
+              className=""
+            >
+              <img src={cross} alt="cross" />
             </button>
           </div>
 
           <input
+            required
             type="text"
             name="title"
             placeholder="Enter Title"
@@ -98,6 +111,7 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
           />
 
           <textarea
+            required
             className="w-full h-[50%] bg-transparent border border-slate-600 font-normal text-black "
             placeholder="Write your interesting story and attract people towards you..."
             name="description"
@@ -107,23 +121,31 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
 
           <div className="flex  justify-between ">
             <div className="flex  items-center  gap-2 flex-wrap">
-              <div className=" space-y-4">
-                <input
-                  type="text"
-                  name="tag"
-                  className="bg-transparent border w-full py-4 border-slate-600"
-                  placeholder="Enter tag name"
-                  value={tag}
-                  onChange={(e) => {
-                    setTag(e.target.value);
-                  }}
-                />
-
-                <button onClick={HandleTags}>Add tag</button>
+              <div className=" space-y-4  ">
+                <form
+                  onSubmit={HandleTags}
+                  className="flex gap-4  items-center w-full"
+                >
+                  <input
+                    type="text"
+                    name="tag"
+                    required
+                    onKeyDown={handleKeyDown}
+                    className="bg-transparent text-black border w-full py-4 border-slate-600"
+                    placeholder="Enter tag name"
+                    value={tag}
+                    onChange={(e) => {
+                      setTag(e.target.value);
+                    }}
+                  />
+                  <button className=" text-3xl w-12 bg-nero text-white h-10 border-black border rounded-full  ">
+                    +
+                  </button>
+                </form>
                 <div className="flex items-center  gap-2 flex-wrap">
                   {params?.tags?.map((item, index) => {
                     return (
-                      <div className="cursor-pointer bg-orange-300 hover:bg-orange-200 rounded-xl text-white  px-2 py-1">
+                      <div className="cursor-pointer bg-orange-300 hover:bg-orange-200 rounded-xl text-black  px-2 py-1">
                         #{item}
                       </div>
                     );
@@ -132,15 +154,12 @@ const CreateStory = ({ open, toggleOpen, GetStories, storyId }) => {
               </div>
             </div>
             <div className="flex items-end">
-              <button
-                onClick={handleSubmit}
-                className="flex-shrink-0 py-2 px-10"
-              >
+              <button className="common_button flex-shrink-0 py-2 px-10">
                 Post
               </button>
             </div>
           </div>
-        </div>
+        </form>
       ) : (
         ""
       )}
