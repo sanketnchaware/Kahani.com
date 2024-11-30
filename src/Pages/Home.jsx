@@ -93,8 +93,9 @@ const Home = () => {
             </div>
 
             <div className="flex justify-center">
-              <button className="title4" onClick={toggleStoryModal}>
-                Do you have your story?
+              <p className="title4">Do you have your story?</p>
+              <button onClick={toggleStoryModal} className="underline">
+                Write it down.
               </button>
             </div>
           </div>
@@ -107,7 +108,7 @@ const Home = () => {
                     className="space-y-4 shadow-sameshadow text-black rounded-xl p-4"
                   >
                     <div className="flex justify-between">
-                    <p className="body2b">
+                      <p className="body2b">
                         {index + 1}. <span className="">{item?.title}</span>
                       </p>
                       <button onClick={() => deleteStory(item?.id)}>
