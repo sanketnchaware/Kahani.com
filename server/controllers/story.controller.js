@@ -12,7 +12,7 @@ async function generateCustomId() {
 router.get("/", async (req, res) => {
   try {
     const stories = await Story.find().lean().exec();
-    return res.status(201).send({ stories: stories, message: "Stories List" });
+    return res.status(200).send({ stories: stories, message: "Stories List" });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
