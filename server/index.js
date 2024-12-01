@@ -31,7 +31,7 @@ app.use(
     saveUninitialized: false, // Do not create a session until something is stored
     cookie: {
       httpOnly: true, // Ensure the cookie is not accessible via JavaScript
-      secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
+      secure: true, // Only set cookies over HTTPS in production
       sameSite: "None", // Allow cookies to be sent in cross-origin requests
       maxAge: 1000 * 60 * 60, // Cookie expiry in 1 hour
     },
