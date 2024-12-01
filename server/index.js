@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: "https://mykahani.netlify.app", // Replace with your frontend URL
+
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // Allow sending cookies with cross-origin requests
@@ -31,7 +32,7 @@ app.use(
     saveUninitialized: false, // Do not create a session until something is stored
     cookie: {
       httpOnly: true, // Ensure the cookie is not accessible via JavaScript
-      secure: true, // Only set cookies over HTTPS in production
+      secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
       sameSite: "None", // Allow cookies to be sent in cross-origin requests
       maxAge: 1000 * 60 * 60, // Cookie expiry in 1 hour
     },
