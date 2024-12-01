@@ -16,7 +16,7 @@ app.use(express.json());
 // Enable CORS with credentials support
 app.use(
   cors({
-    origin: ["https://mykahani.netlify.app", "http://localhost:3000"], // Replace with your frontend URL
+    origin: "https://mykahani.netlify.app", // Replace with your frontend URL
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // Allow sending cookies with cross-origin requests
