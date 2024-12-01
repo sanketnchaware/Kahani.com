@@ -13,7 +13,6 @@ const Home = () => {
 
   const [stories, setStories] = useState([]);
   const [storyId, SetStoryId] = useState();
-  console.log("stories:", stories, storyId);
 
   const toggleStoryModal = () => {
     setCreateOpenStory(!openCreateStory);
@@ -33,32 +32,6 @@ const Home = () => {
   };
 
   const main = useRef(null);
-
-  // useEffect(() => {
-  //   let ctx = gsap.context(() => {
-  //     gsap.to(".leftcontainer", {
-  //       scrollTrigger: {
-  //         trigger: ".leftcontainer",
-  //         start: "top top",
-  //         // end: "bottom bottom",
-  //         // endTrigger: ".HomemainContainer",
-  //         pin: true,
-  //         pinSpacing: false,
-  //       },
-  //     });
-  //     gsap.to(".rightcontainer", {
-  //       scrollTrigger: {
-  //         trigger: ".rightcontainer",
-  //         start: "top top",
-  //         // end: "bottom bottom",
-  //         // endTrigger: ".HomemainContainer",
-  //         pin: true,
-  //         pinSpacing: false,
-  //       },
-  //     });
-  //   });
-  //   return () => ctx.revert();
-  // }, []);
 
   function GetStories() {
     axiosInstance
@@ -81,6 +54,37 @@ const Home = () => {
         console.log("err:", err);
       });
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    storyId
+      ? axiosInstance
+          .patch(`/stories/${storyId}`, params)
+          .then((res) => {
+            alert("story updated");
+            GetStories();
+            toggleOpen();
+            setParams(fields);
+          })
+          .catch((err) => {
+            console.log("err:", err);
+          })
+          .finally(() => {})
+      : axiosInstance
+          .post("/stories", params)
+          .then((res) => {
+            // GetStories(res.data.stories);
+          })
+          .catch((err) => {
+            console.log("err:", err);
+          })
+          .finally(() => {
+            setParams(fields);
+            toggleOpen();
+            GetStories();
+          });
+  };
 
   useEffect(() => {
     GetStories();
@@ -106,9 +110,9 @@ const Home = () => {
             </div>
 
             <div className="flex justify-center gap-4">
-              <p className="title4">Do you have your story?</p>
-              <button onClick={toggleStoryModal} className="common_button">
-                Add 
+              <p className="title5">Do you have your story?</p>
+              <button onClick={toggleStoryModal} className=" common_button">
+                Add
               </button>
             </div>
           </div>
@@ -177,6 +181,7 @@ const Home = () => {
         fields={fields}
         GetStories={GetStories}
         toggleOpen={toggleStoryModal}
+        handleSubmit={handleSubmit}
       />
     </>
   );
